@@ -1,0 +1,7 @@
+check,count
+books_before_cleaning,10000
+books_after_cleaning,10000
+missing_publication_years,21
+negative_publication_years,31
+zero_publication_years,0
+books_with_recorded_year,9979

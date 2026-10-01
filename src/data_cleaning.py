@@ -73,3 +73,54 @@ def check_books_quality(books: pd.DataFrame) -> pd.DataFrame:
     }
 
     return pd.DataFrame(checks.items(), columns=["check", "count"])
+
+
+def clean_books(books: pd.DataFrame) -> pd.DataFrame:
+    """
+    Prepare book metadata without removing rows or imputing dates.
+
+    Parameters
+    ----------
+    books : pandas.DataFrame
+        Book metadata with title, authors, and original_publication_year.
+
+    Returns
+    -------
+    pandas.DataFrame
+        A copy with trimmed text fields and three additional columns:
+        publication_year, publication_year_missing, and is_bce.
+        The original publication-year column is preserved.
+        is_bce remains missing when the publication year is unknown.
+
+    Raises
+    ------
+    ValueError
+        If required columns are absent or years are non-numeric,
+        non-integer, infinite, or zero.
+    """
+    required_columns = {"title", "authors", "original_publication_year"}
+    missing_columns = sorted(required_columns - set(books.columns))
+
+    if missing_columns:
+        raise ValueError(f"Missing required columns: {missing_columns}")
+
+    cleaned = books.copy()
+
+    years = pd.to_numeric(
+        cleaned["original_publication_year"], errors="raise"
+    )
+
+    if not years.dropna().mod(1).eq(0).all():
+        raise ValueError("Publication years must be finite whole numbers.")
+
+    if years.eq(0).any():
+        raise ValueError("Zero publication years require manual review.")
+
+    for column in ["title", "authors"]:
+        cleaned[column] = cleaned[column].astype("string").str.strip()
+
+    cleaned["publication_year"] = years.astype("Int64")
+    cleaned["publication_year_missing"] = cleaned["publication_year"].isna()
+    cleaned["is_bce"] = cleaned["publication_year"].lt(0)
+
+    return cleaned
