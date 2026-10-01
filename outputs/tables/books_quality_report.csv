@@ -1,0 +1,15 @@
+check,count
+total_rows,10000
+exact_duplicate_rows,0
+missing_book_ids,0
+extra_duplicate_book_ids,0
+missing_goodreads_book_ids,0
+extra_duplicate_goodreads_book_ids,0
+missing_or_blank_titles,0
+missing_or_blank_authors,0
+missing_or_non_numeric_years,21
+non_positive_years_to_review,31
+missing_or_non_numeric_average_ratings,0
+average_ratings_outside_1_to_5,0
+missing_or_non_numeric_rating_counts,0
+negative_rating_counts,0
