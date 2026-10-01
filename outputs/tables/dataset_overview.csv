@@ -1,0 +1,5 @@
+dataset,rows,columns
+books,10000,23
+ratings,5976479,3
+tags,34252,2
+book_tags,999912,3
