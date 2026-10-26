@@ -2,6 +2,16 @@
 
 import pandas as pd
 
+GENRE_MAP = {
+    "fantasy": "Fantasy",
+    "science-fiction": "Science fiction",
+    "sci-fi": "Science fiction",
+    "romance": "Romance",
+    "mystery": "Mystery",
+    "thriller": "Thriller",
+    "historical-fiction": "Historical fiction",
+    "horror": "Horror",
+}
 
 def check_books_quality(books: pd.DataFrame) -> pd.DataFrame:
     """
@@ -124,3 +134,30 @@ def clean_books(books: pd.DataFrame) -> pd.DataFrame:
     cleaned["is_bce"] = cleaned["publication_year"].lt(0)
 
     return cleaned
+
+def prepare_book_genres(books_tags: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create one row per book and selected genre.
+
+    Parameters
+    ----------
+    books_tags : pandas.DataFrame
+        Merged tag table containing book_id and tag_name.
+        Book and tag matches should be checked before calling.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Columns book_id and genre, with unique book-genre pairs.
+        Books without a selected genre tag are absent.
+        Source tag counts are not used.
+    """
+    selected = books_tags[["book_id", "tag_name"]].copy()
+
+    selected["genre"] = selected["tag_name"].map(GENRE_MAP)
+
+    selected = selected.dropna(subset=["genre"])
+
+    book_genres = selected[["book_id", "genre"]].drop_duplicates()
+
+    return book_genres.reset_index(drop=True)
