@@ -148,3 +148,48 @@ def merge_books_tags(
         validate="many_to_one",
         indicator="book_match",
     )
+
+
+def merge_books_genres(
+    books: pd.DataFrame,
+    book_genres: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Attach book metadata to unique book-genre pairs.
+
+    Parameters
+    ----------
+    books : pandas.DataFrame
+        Book metadata with one row per book_id.
+    book_genres : pandas.DataFrame
+        Unique combinations of book_id and genre.
+
+    Returns
+    -------
+    pandas.DataFrame
+        One row per book-genre pair, including title,
+        average_rating, and ratings_count.
+    """
+    if book_genres.duplicated(["book_id", "genre"]).any():
+        raise ValueError(
+            "Each book-genre pair must appear only once."
+        )
+
+    if not book_genres["book_id"].isin(books["book_id"]).all():
+        raise ValueError(
+            "Some genre records refer to unknown books."
+        )
+
+    return book_genres.merge(
+        books[
+            [
+                "book_id",
+                "title",
+                "average_rating",
+                "ratings_count",
+            ]
+        ],
+        on="book_id",
+        how="left",
+        validate="many_to_one",
+    )
