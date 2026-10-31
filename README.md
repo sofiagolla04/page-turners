@@ -2,86 +2,109 @@
 
 ## Project Overview
 
-Page Turners investigates how book ratings relate to genres, authors,
-publication years, and the number of ratings.
+Page Turners is a Python data analysis project exploring the relationship between book ratings, genres, publication periods, authors, and popularity. It is developed for the Coding for Data Science course.
 
-The project distinguishes between:
-
-- Popularity: the number of ratings a book has received.
-- Reader appreciation: the book's average rating.
-
-The analysis is presented in a Jupyter notebook and uses reusable Python
-functions from the `src` directory.
-
-## Project Status
-
-The project structure, dataset download script, and initial data-loading
-function are implemented. Cleaning, analysis, visualisations, and final
-findings are still being developed.
+The project distinguishes **popularity** (the number of ratings a book receives) from **reader appreciation** (its average rating). It uses a Jupyter notebook for the analysis narrative and reusable functions in the `src/` directory for data preparation, validation, analysis, and plotting.
 
 ## Research Questions
 
-1. How do average ratings differ across genres?
-2. How are publication years associated with ratings?
-3. Are more frequently rated books also rated more highly?
-4. How do ratings vary across an author's published works?
-5. Which books combine high average ratings with many ratings?
+1. How do average book ratings vary across selected genres?
+2. How do rating distributions differ across original publication periods?
+3. Is the number of ratings associated with a book's average rating?
+4. How do ratings vary among books by the same author and over publication years?
+5. Which books combine relatively high ratings with high popularity?
 
-## Data Source
+## Dataset
 
-Dataset: goodbooks-10k by zygmuntz.
+Source: [goodbooks-10k](https://github.com/zygmuntz/goodbooks-10k) by zygmuntz.
 
-Source repository:
-https://github.com/zygmuntz/goodbooks-10k
+| File | Purpose |
+| --- | --- |
+| `books.csv` | Book metadata, publication years, aggregate ratings, and rating counts |
+| `ratings.csv` | Individual user–book ratings |
+| `tags.csv` | Tag IDs and names |
+| `book_tags.csv` | Book–tag relationships and associated counts |
 
-Files used:
-
-- `books.csv`: book metadata.
-- `ratings.csv`: individual user ratings.
-- `tags.csv`: tag identifiers and names.
-- `book_tags.csv`: relationships between books and tags.
-
-The raw CSV files are not committed to this repository.
-Use the download script to obtain them from the source repository.
+The raw CSV files are not stored in this repository. Run `download_data.sh` to download them from the source. Book IDs and Goodreads book IDs serve different purposes and are used with the appropriate join keys.
 
 ## Project Structure
 
-- `page_turners_analysis.ipynb`: analysis and presentation.
-- `src/data_loading.py`: dataset loading.
-- `src/data_cleaning.py`: cleaning functions, to be implemented.
-- `src/analysis.py`: analytical functions, to be implemented.
-- `src/visualization.py`: plotting functions, to be implemented.
-- `data/raw/`: original datasets.
-- `data/processed/`: intermediate datasets.
-- `outputs/figures/`: final plots.
-- `outputs/tables/`: exported summary tables.
-- `download_data.sh`: dataset download script.
-- `requirements.txt`: installed Python package versions.
+| Path | Purpose |
+| --- | --- |
+| `page_turners_analysis.ipynb` | Main analysis and presentation notebook |
+| `src/data_loading.py` | Load CSV files and report loading errors |
+| `src/data_cleaning.py` | Data-quality checks, metadata preparation, genre mapping, and analysis-specific subsets |
+| `src/data_merging.py` | Validated merges of ratings, tags, genres, and book metadata |
+| `src/analysis.py` | Genre, publication-period, author, and popularity summaries; Spearman correlation |
+| `src/visualization.py` | Plots for publication periods, author timelines, and popularity versus appreciation |
+| `data/raw/` | Downloaded source CSV files |
+| `data/processed/` | Location reserved for intermediate datasets |
+| `outputs/figures/` | Location for exported figures |
+| `outputs/tables/` | Location for exported tables |
+| `download_data.sh` | Data download script |
+| `requirements.txt` | Pinned Python environment dependencies |
 
-## Libraries
+## Methodology
 
-The project environment includes pandas, NumPy, SciPy, Matplotlib,
-Seaborn, Jupyter Notebook, IPython kernel support, and nbformat.
+### 1. Data inspection and quality checks
 
-## Setup and Run — macOS/Linux
+Inspect the dataset structure, missing values, duplicate records, and key fields. Validate book identifiers, rating ranges, rating counts, and publication-year values before analysis.
 
-Clone this repository, open Terminal in the project folder, and run:
+### 2. Data cleaning
 
-    python3 -m venv .venv
-    source .venv/bin/activate
-    python -m pip install -r requirements.txt
-    python -m ipykernel install --user --name page-turners --display-name "Python (Page Turners)"
-    bash download_data.sh
-    jupyter notebook page_turners_analysis.ipynb
+Standardize title and author strings, prepare nullable integer publication years, and preserve information about missing years and BCE dates. Missing publication years are not automatically imputed. Map a selected set of tags to broader genre labels; a book may belong to multiple selected genres.
 
-In Jupyter, select the `Python (Page Turners)` kernel.
-Run the notebook cells in order.
+### 3. Data integration
 
-## Outputs
+- Summarize individual ratings by `book_id` and merge them with the book table while retaining one row per book.
+- Join book tags to tag names through `tag_id`, then to book metadata through `goodreads_book_id`.
+- Check key uniqueness, missing join keys, and unmatched records. Repeated book–tag pairs are flagged for review.
+- Keep the source's aggregate `average_rating` separate from the `sample_average_rating` calculated from `ratings.csv`.
 
-Final figures will be saved in `outputs/figures/`.
-Summary tables will be saved in `outputs/tables/`.
+### 4. Exploratory analysis
 
-## Findings and Limitations
+- Compare book-level average ratings across selected genres.
+- Group original publication years into periods and compare rating distributions.
+- Summarize authors by their first listed name and examine selected author timelines.
+- Compare popularity quartiles and calculate Spearman's rank correlation between rating counts and average ratings.
+- Visualize selected relationships using Matplotlib and Seaborn.
 
-These sections will be completed after the analysis.
+## Setup and Execution (macOS/Linux)
+
+Clone the repository and enter the project directory:
+
+```bash
+git clone https://github.com/sofiagolla04/page-turners.git
+cd page-turners
+```
+
+Create and activate a virtual environment, install dependencies, download the data, and launch the notebook:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m ipykernel install --user --name page-turners --display-name "Python (Page Turners)"
+bash download_data.sh
+jupyter notebook page_turners_analysis.ipynb
+```
+
+Select the **Python (Page Turners)** kernel and run the notebook cells in order. An internet connection is required to download the datasets.
+
+## Tools and Libraries
+
+Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, and Seaborn. Dependency versions are recorded in `requirements.txt`.
+
+## Interpretation and Limitations
+
+- The goodbooks-10k dataset is a selected collection of books, not a representative sample of all published books or readers.
+- Genre categories are derived from a selected mapping of user-generated tags; categories may overlap and do not cover every book.
+- Author comparisons use the **first listed author**, which does not fully represent co-authored books.
+- Book-level mean ratings are not weighted by their number of ratings in the genre, author, and period summaries.
+- Publication years may be missing, and original publication year is not necessarily the year of the edition rated.
+- Correlations describe associations, not causal relationships.
+- Aggregate ratings from `books.csv` and summaries of the individual ratings sample must not be treated as interchangeable.
+
+## Project Status
+
+Data loading, quality-check and preparation utilities, validated merges, analytical summaries, and several visualizations are implemented. Final notebook execution, exported outputs, and the interpretation of numerical findings should be checked before submission. This README does not claim that an end-to-end reproducibility test has been completed.
