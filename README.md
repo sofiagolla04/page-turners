@@ -95,6 +95,23 @@ Select the **Python (Page Turners)** kernel and run the notebook cells in order.
 
 Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, and Seaborn. Dependency versions are recorded in `requirements.txt`.
 
+## Key Findings
+
+The notebook analyses 10,000 books and reports the following descriptive results:
+
+| Analysis | Result |
+| --- | --- |
+| Genre coverage | 8,392 books (83.92%) have at least one of the selected genre tags |
+| Genre ratings | Fantasy has the highest mean among the seven mapped genres (4.058); Historical fiction the lowest (3.966) |
+| Publication periods | 9,979 books have usable publication years; period means range from 3.892 (1–1799) to 4.034 (1950–1999) |
+| Selected authors | Among James Patterson, Stephen King, and Nora Roberts, Nora Roberts has the highest mean (4.075) and lowest book-level standard deviation (0.093) |
+| Popularity quartiles | Mean ratings rise from 3.968 in the lowest quartile to 4.025 in the highest |
+| Popularity–appreciation association | Spearman's rho = 0.0792 across 10,000 books |
+
+**Main conclusion:** Popularity and reader appreciation capture different aspects of book reception. The association between the number of ratings and average rating is very weak and positive; it does not establish causality. All results refer to the books represented in goodbooks-10k.
+
+For full tables, visualizations, methodological choices, and interpretations, see Sections 12–14 of the [analysis notebook](page_turners_analysis.ipynb).
+
 ## Interpretation and Limitations
 
 - The goodbooks-10k dataset is a selected collection of books, not a representative sample of all published books or readers.
@@ -107,4 +124,4 @@ Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, and Seaborn. Depende
 
 ## Project Status
 
-Data loading, quality-check and preparation utilities, validated merges, analytical summaries, and several visualizations are implemented. Final notebook execution, exported outputs, and the interpretation of numerical findings should be checked before submission. This README does not claim that an end-to-end reproducibility test has been completed.
+The notebook includes data preparation, integration, exploratory analyses, visualizations, findings, limitations, and a conclusion. The project author confirmed that restarting the kernel and running all cells completed without errors in their local environment on 31 October 2026. This is a successful local execution check, not an independent test on a clean machine.
