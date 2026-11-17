@@ -4,7 +4,7 @@
 
 Page Turners is a Python data analysis project exploring the relationship between book ratings, genres, publication periods, authors, and popularity. It is developed for the Coding for Data Science course.
 
-The project distinguishes **popularity** (the number of ratings a book receives) from **reader appreciation** (its average rating). It uses a Jupyter notebook for the analysis narrative and reusable functions in the `src/` directory for data preparation, validation, analysis, and plotting.
+The project distinguishes **popularity** (the number of ratings a book receives) from **reader appreciation** (its average rating). It uses a Jupyter notebook for the analysis narrative, an interactive Streamlit dashboard in `app.py`, and reusable functions in the `src/` directory for data preparation, validation, analysis, and plotting.
 
 ## Research Questions
 
@@ -32,6 +32,7 @@ The raw CSV files are not stored in this repository. Run `download_data.sh` to d
 | Path | Purpose |
 | --- | --- |
 | `page_turners_analysis.ipynb` | Main analysis and presentation notebook |
+| `app.py` | Interactive Streamlit dashboard reusing the src modules |
 | `src/data_loading.py` | Load CSV files and report loading errors |
 | `src/data_cleaning.py` | Data-quality checks, metadata preparation, genre mapping, and analysis-specific subsets |
 | `src/data_merging.py` | Validated merges of ratings, tags, genres, and book metadata |
@@ -91,9 +92,25 @@ jupyter notebook page_turners_analysis.ipynb
 
 Select the **Python (Page Turners)** kernel and run the notebook cells in order. An internet connection is required to download the datasets.
 
+To launch the interactive dashboard with the same environment and downloaded files, run:
+
+```bash
+streamlit run app.py
+```
+
+Streamlit will provide a local address (usually `http://localhost:8501`) where you can open the dashboard in your browser. A public deployment is not included.
+
 ## Tools and Libraries
 
-Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, and Seaborn. Dependency versions are recorded in `requirements.txt`.
+Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, Seaborn, and Streamlit. Dependency versions are recorded in `requirements.txt`.
+
+## Interactive Streamlit Dashboard
+
+The completed `app.py` dashboard provides six interactive views: Overview, Genres, Publication periods, Authors, Popularity, and Discover books. Users can compare selected genre summaries, publication-period boxplots, selected author timelines, and popularity quartiles with recalculated Spearman correlation. They can also search books, filter by genre and rating measures, and export the filtered results as CSV.
+
+The Discover books view also offers an exploratory answer to the fifth research question: it lists books above the **75th percentile of both average rating and rating count** within this dataset. This is a transparent, dataset-relative selection rule, not a claim that these books are objectively the best.
+
+The interface imports the existing `src` functions. To reduce initial processing, it joins only source tags included in `GENRE_MAP`, yielding the same selected book–genre pairs used in the notebook. The dashboard is implemented for **local execution**; it has not been published as a hosted web application.
 
 ## Key Findings
 
@@ -124,4 +141,4 @@ For full tables, visualizations, methodological choices, and interpretations, se
 
 ## Project Status
 
-The notebook includes data preparation, integration, exploratory analyses, visualizations, findings, limitations, and a conclusion. The project author confirmed that restarting the kernel and running all cells completed without errors in their local environment on 31 October 2026. This is a successful local execution check, not an independent test on a clean machine.
+The notebook includes data preparation, integration, exploratory analyses, visualizations, findings, limitations, and a conclusion. An interactive Streamlit application has also been added in `app.py`, with launch instructions above. The project author confirmed that restarting the notebook kernel and running all cells completed without errors in their local environment on 31 October 2026. That check predates the Streamlit addition. The Streamlit code has not yet been independently tested end to end on a clean machine or deployed publicly.
