@@ -1,10 +1,12 @@
 # Page Turners
 
+**[🌐 Open the live Streamlit dashboard](https://page-turners.streamlit.app/)** · [Explore the notebook](page_turners_analysis.ipynb)
+
 ## Project Overview
 
 Page Turners is a Python data analysis project exploring the relationship between book ratings, genres, publication periods, authors, and popularity. It is developed for the Coding for Data Science course.
 
-The project distinguishes **popularity** (the number of ratings a book receives) from **reader appreciation** (its average rating). It uses a Jupyter notebook for the analysis narrative, an interactive Streamlit dashboard in `app.py`, and reusable functions in the `src/` directory for data preparation, validation, analysis, and plotting. The dashboard is prepared for free deployment on Streamlit Community Cloud.
+The project distinguishes **popularity** (the number of ratings a book receives) from **reader appreciation** (its average rating). It uses a Jupyter notebook for the analysis narrative, an interactive Streamlit dashboard in `app.py`, and reusable functions in the `src/` directory for data preparation, validation, analysis, and plotting. The dashboard is linked as a public Streamlit Community Cloud app at [page-turners.streamlit.app](https://page-turners.streamlit.app/).
 
 ## Research Questions
 
@@ -103,24 +105,18 @@ streamlit run app.py
 
 Streamlit will provide a local address (usually `http://localhost:8501`) where you can open the dashboard in your browser. A public deployment is not included.
 
-## Deploy on Streamlit Community Cloud
+## Interactive Dashboard Online
 
-This project is ready to be deployed as a public Streamlit app, but the final publishing step requires the owner's own Streamlit/GitHub authorization. To publish:
+**[Launch Page Turners — Streamlit Dashboard](https://page-turners.streamlit.app/)**
 
-1. Open [Streamlit Community Cloud](https://share.streamlit.io) and sign in (or sign up) with GitHub.
-2. Authorize Streamlit to access the public `sofiagolla04/page-turners` repository if requested.
-3. Choose **Create app** > **Yup, I have an app** and provide the following:
-   - **Repository:** `sofiagolla04/page-turners`
-   - **Branch:** `main`
-   - **Main file path:** `app.py`
-   - **Advanced settings > Python version:** `3.13`
-   - **App URL:** choose an available name, e.g. `page-turners-books` (the final address is assigned by Streamlit)
-4. Click **Deploy**. Community Cloud will install `requirements.txt` automatically, and the dashboard will fetch its public CSV sources on first launch.
-5. Once the app successfully opens, copy its actual `https://...streamlit.app` URL into this README near the top for visitors.
+The publicly shared Streamlit URL allows visitors to explore genre comparisons, publication periods, author timelines, popularity and book discovery from a web browser. The dashboard automatically downloads the required public goodbooks-10k CSV files when needed; visitors do not need to download the datasets or run Python locally.
 
-**Public dashboard link:** Not yet published (the owner must complete the Community Cloud deployment above).
+### Re-deploying or forking the dashboard
 
-The hosted dashboard needs no manual `bash download_data.sh` step. Local notebook users should still run that script to obtain all four source CSVs.
+If you want your own deployment, sign in to [Streamlit Community Cloud](https://share.streamlit.io), select the public repository `sofiagolla04/page-turners`, branch `main`, and entry point `app.py`. Select Python 3.13 in advanced settings. Community Cloud installs `requirements.txt` automatically.
+
+Local notebook users should continue to run `bash download_data.sh` to obtain all four source CSV files.
+
 ## Tools and Libraries
 
 Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, Seaborn, and Streamlit. Dependency versions are recorded in `requirements.txt`.
@@ -166,4 +162,4 @@ For full tables, visualizations, methodological choices, and interpretations, se
 
 ## Project Status
 
-The notebook includes data preparation, integration, exploratory analyses, visualizations, findings, limitations, and a conclusion. An interactive Streamlit application has also been added in `app.py`, with launch instructions above. The project author confirmed that restarting the notebook kernel and running all cells completed without errors in their local environment on 31 October 2026. That check predates the Streamlit addition. The Streamlit code has not yet been independently tested end to end on a clean machine or deployed publicly.
+The notebook includes data preparation, integration, exploratory analyses, visualizations, findings, limitations, and a conclusion. An interactive Streamlit application has also been added in `app.py`, with launch instructions above. The project author confirmed that restarting the notebook kernel and running all cells completed without errors in their local environment on 31 October 2026. That check predates the Streamlit addition. The public Streamlit dashboard URL is linked above; the app has not been independently tested end to end from this environment.
