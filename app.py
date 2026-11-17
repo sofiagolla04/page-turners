@@ -25,6 +25,7 @@ from src.data_cleaning import (
     prepare_popularity_data,
     prepare_publication_periods,
 )
+from src.data_download import ensure_dashboard_datasets
 from src.data_loading import load_csv
 from src.data_merging import merge_books_genres, merge_books_tags
 from src.visualization import (
@@ -298,6 +299,8 @@ apply_design()
 @st.cache_data(show_spinner="Preparing Page Turners datasets...")
 def prepare_dashboard_data():
     """Reuse the project workflow; keep only mapped tags to speed up the dashboard."""
+    # Community Cloud starts without the Git-ignored CSV files.
+    ensure_dashboard_datasets()
     books = clean_books(load_csv("books.csv"))
     tags = load_csv("tags.csv")
     mapped_tags = tags.loc[tags["tag_name"].isin(GENRE_MAP)].copy()
@@ -345,9 +348,10 @@ st.markdown(
 try:
     data = prepare_dashboard_data()
 except (FileNotFoundError, OSError, KeyError, ValueError) as error:
-    st.error("The project datasets could not be loaded or validated.")
-    st.write("From the repository directory, download the CSVs and restart the app:")
-    st.code("bash download_data.sh", language="bash")
+    st.error("The project datasets could not be downloaded, loaded, or validated.")
+    st.write("The dashboard automatically downloads its public CSV files on first launch.")
+    st.write("If this error persists, check access to the goodbooks-10k source and Streamlit app logs.")
+    st.caption("Local alternative: run bash download_data.sh from the project directory.")
     st.caption(f"Details: {error}")
     st.stop()
 
