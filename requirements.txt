@@ -93,6 +93,7 @@ Send2Trash==2.1.0
 six==1.17.0
 soupsieve==2.10
 stack-data==0.6.3
+streamlit==1.67.0
 terminado==0.18.1
 tinycss2==1.5.1
 tornado==6.5.10
