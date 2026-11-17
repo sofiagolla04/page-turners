@@ -33,6 +33,7 @@ The raw CSV files are not stored in this repository. Run `download_data.sh` to d
 | --- | --- |
 | `page_turners_analysis.ipynb` | Main analysis and presentation notebook |
 | `app.py` | Interactive Streamlit dashboard reusing the src modules |
+| `.streamlit/config.toml` | Coordinated light theme and application colors |
 | `src/data_loading.py` | Load CSV files and report loading errors |
 | `src/data_cleaning.py` | Data-quality checks, metadata preparation, genre mapping, and analysis-specific subsets |
 | `src/data_merging.py` | Validated merges of ratings, tags, genres, and book metadata |
@@ -109,6 +110,8 @@ Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, Seaborn, and Streaml
 The completed `app.py` dashboard provides six interactive views: Overview, Genres, Publication periods, Authors, Popularity, and Discover books. Users can compare selected genre summaries, publication-period boxplots, selected author timelines, and popularity quartiles with recalculated Spearman correlation. They can also search books, filter by genre and rating measures, and export the filtered results as CSV.
 
 The Discover books view also offers an exploratory answer to the fifth research question: it lists books above the **75th percentile of both average rating and rating count** within this dataset. This is a transparent, dataset-relative selection rule, not a claim that these books are objectively the best.
+
+The dashboard uses a custom editorial layout with a book-themed header, styled KPI tiles, responsive sections, clearer chart presentation, and a light Streamlit theme configured in `.streamlit/config.toml`.
 
 The interface imports the existing `src` functions. To reduce initial processing, it joins only source tags included in `GENRE_MAP`, yielding the same selected book–genre pairs used in the notebook. The dashboard is implemented for **local execution**; it has not been published as a hosted web application.
 
