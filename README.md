@@ -4,7 +4,7 @@
 
 Page Turners is a Python data analysis project exploring the relationship between book ratings, genres, publication periods, authors, and popularity. It is developed for the Coding for Data Science course.
 
-The project distinguishes **popularity** (the number of ratings a book receives) from **reader appreciation** (its average rating). It uses a Jupyter notebook for the analysis narrative, an interactive Streamlit dashboard in `app.py`, and reusable functions in the `src/` directory for data preparation, validation, analysis, and plotting.
+The project distinguishes **popularity** (the number of ratings a book receives) from **reader appreciation** (its average rating). It uses a Jupyter notebook for the analysis narrative, an interactive Streamlit dashboard in `app.py`, and reusable functions in the `src/` directory for data preparation, validation, analysis, and plotting. The dashboard is prepared for free deployment on Streamlit Community Cloud.
 
 ## Research Questions
 
@@ -33,6 +33,7 @@ The raw CSV files are not stored in this repository. Run `download_data.sh` to d
 | --- | --- |
 | `page_turners_analysis.ipynb` | Main analysis and presentation notebook |
 | `app.py` | Interactive Streamlit dashboard reusing the src modules |
+| `src/data_download.py` | Automatically downloads the three CSVs used by the cloud dashboard |
 | `.streamlit/config.toml` | Coordinated light theme and application colors |
 | `src/data_loading.py` | Load CSV files and report loading errors |
 | `src/data_cleaning.py` | Data-quality checks, metadata preparation, genre mapping, and analysis-specific subsets |
@@ -44,7 +45,8 @@ The raw CSV files are not stored in this repository. Run `download_data.sh` to d
 | `outputs/figures/` | Location for exported figures |
 | `outputs/tables/` | Location for exported tables |
 | `download_data.sh` | Data download script |
-| `requirements.txt` | Pinned Python environment dependencies |
+| `requirements.txt` | Pinned cross-platform dependencies for analysis and Streamlit Cloud |
+| `requirements-notebook.txt` | Additional pinned dependencies for Jupyter and the notebook |
 
 ## Methodology
 
@@ -85,7 +87,7 @@ Create and activate a virtual environment, install dependencies, download the da
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-notebook.txt
 python -m ipykernel install --user --name page-turners --display-name "Python (Page Turners)"
 bash download_data.sh
 jupyter notebook page_turners_analysis.ipynb
@@ -101,6 +103,24 @@ streamlit run app.py
 
 Streamlit will provide a local address (usually `http://localhost:8501`) where you can open the dashboard in your browser. A public deployment is not included.
 
+## Deploy on Streamlit Community Cloud
+
+This project is ready to be deployed as a public Streamlit app, but the final publishing step requires the owner's own Streamlit/GitHub authorization. To publish:
+
+1. Open [Streamlit Community Cloud](https://share.streamlit.io) and sign in (or sign up) with GitHub.
+2. Authorize Streamlit to access the public `sofiagolla04/page-turners` repository if requested.
+3. Choose **Create app** > **Yup, I have an app** and provide the following:
+   - **Repository:** `sofiagolla04/page-turners`
+   - **Branch:** `main`
+   - **Main file path:** `app.py`
+   - **Advanced settings > Python version:** `3.13`
+   - **App URL:** choose an available name, e.g. `page-turners-books` (the final address is assigned by Streamlit)
+4. Click **Deploy**. Community Cloud will install `requirements.txt` automatically, and the dashboard will fetch its public CSV sources on first launch.
+5. Once the app successfully opens, copy its actual `https://...streamlit.app` URL into this README near the top for visitors.
+
+**Public dashboard link:** Not yet published (the owner must complete the Community Cloud deployment above).
+
+The hosted dashboard needs no manual `bash download_data.sh` step. Local notebook users should still run that script to obtain all four source CSVs.
 ## Tools and Libraries
 
 Python, Jupyter Notebook, pandas, NumPy, SciPy, Matplotlib, Seaborn, and Streamlit. Dependency versions are recorded in `requirements.txt`.
@@ -112,6 +132,8 @@ The completed `app.py` dashboard provides six interactive views: Overview, Genre
 The Discover books view also offers an exploratory answer to the fifth research question: it lists books above the **75th percentile of both average rating and rating count** within this dataset. This is a transparent, dataset-relative selection rule, not a claim that these books are objectively the best.
 
 The dashboard uses a custom editorial layout with a book-themed header, styled KPI tiles, responsive sections, clearer chart presentation, and a light Streamlit theme configured in `.streamlit/config.toml`.
+
+Streamlit Community Cloud does not include the files ignored by Git in `data/raw/`. On first start, the dashboard automatically downloads `books.csv`, `tags.csv`, and `book_tags.csv` from the public goodbooks-10k repository using `src/data_download.py`. It does not need the large `ratings.csv` sample because the interactive summaries use the aggregate metadata. The original notebook workflow still uses `bash download_data.sh` to download all four files.
 
 The interface imports the existing `src` functions. To reduce initial processing, it joins only source tags included in `GENRE_MAP`, yielding the same selected book–genre pairs used in the notebook. The dashboard is implemented for **local execution**; it has not been published as a hosted web application.
 
