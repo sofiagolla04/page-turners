@@ -35,7 +35,7 @@ The raw CSV files are not stored in this repository. Run `download_data.sh` to d
 | --- | --- |
 | `page_turners_analysis.ipynb` | Main analysis and presentation notebook |
 | `app.py` | Interactive Streamlit dashboard reusing the src modules |
-| `src/data_download.py` | Automatically downloads the three CSVs used by the cloud dashboard |
+| `src/data_download.py` | Automatically downloads the four CSVs used by the cloud dashboard |
 | `.streamlit/config.toml` | Coordinated light theme and application colors |
 | `src/data_loading.py` | Load CSV files and report loading errors |
 | `src/data_cleaning.py` | Data-quality checks, metadata preparation, genre mapping, and analysis-specific subsets |
