@@ -103,7 +103,6 @@ To launch the interactive dashboard with the same environment and downloaded fil
 streamlit run app.py
 ```
 
-Streamlit will provide a local address (usually `http://localhost:8501`) where you can open the dashboard in your browser. A public deployment is not included.
 
 ## Interactive Dashboard Online
 
@@ -131,7 +130,7 @@ The dashboard uses a custom editorial layout with a book-themed header, styled K
 
 Streamlit Community Cloud does not include the files ignored by Git in `data/raw/`. On first start, the dashboard automatically downloads `books.csv`, `tags.csv`, and `book_tags.csv` from the public goodbooks-10k repository using `src/data_download.py`. It does not need the large `ratings.csv` sample because the interactive summaries use the aggregate metadata. The original notebook workflow still uses `bash download_data.sh` to download all four files.
 
-The interface imports the existing `src` functions. To reduce initial processing, it joins only source tags included in `GENRE_MAP`, yielding the same selected book–genre pairs used in the notebook. The dashboard is implemented for **local execution**; it has not been published as a hosted web application.
+The interface imports the existing `src` functions. To reduce initial processing, it joins only source tags included in `GENRE_MAP`, yielding the same selected book–genre pairs used in the notebook.
 
 ## Key Findings
 
@@ -162,4 +161,4 @@ For full tables, visualizations, methodological choices, and interpretations, se
 
 ## Project Status
 
-The notebook includes data preparation, integration, exploratory analyses, visualizations, findings, limitations, and a conclusion. An interactive Streamlit application has also been added in `app.py`, with launch instructions above. The project author confirmed that restarting the notebook kernel and running all cells completed without errors in their local environment on 31 October 2026. That check predates the Streamlit addition. The public Streamlit dashboard URL is linked above; the app has not been independently tested end to end from this environment.
+The notebook includes data preparation, integration, exploratory analyses, visualizations, findings, limitations, and a conclusion. An interactive Streamlit application has also been added in `app.py`, with launch instructions above. The project author confirmed that restarting the notebook kernel and running all cells completed without errors in their local environment on 23 November 2026. The public Streamlit dashboard URL is linked above. 
